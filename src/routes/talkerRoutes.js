@@ -20,4 +20,8 @@ talkerRouter.get('/talker/:id', async (req, res) => {
     return res.status(200).json(result);
 });
 
+// talkerRouter.post('/talker', async (req, res) => {
+
+// });
+
 module.exports = talkerRouter;
