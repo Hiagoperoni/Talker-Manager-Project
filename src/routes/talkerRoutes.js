@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const { readFile } = require('../utils/fs/readData');
-// const { writeFile } = require('../utils/fs/writeData');
+const { writeFile } = require('../utils/fs/writeData');
 
 const talkerRouter = express.Router();
 const filePath = path.resolve('src', 'talker.json');
@@ -95,10 +95,14 @@ talkerRouter.post('/talker', async (req, res) => {
     verifyTalk(talk);
     verifyWatchedAt(watchedAt);
     verifyRate(rate);
+    const data = await readFile(filePath);
+    const id = (data.length + 1) + 1;
     if (resultVerify[0] !== 0) {
-        res.status(400).json({ message: resultVerify[1] });
+        return res.status(400).json({ message: resultVerify[1] });
     }
-    res.status(201).json(req.body);
+    const newTalker = { name, age, id, talk: { watchedAt, rate } };
+    const writeNewTalker = await writeFile(filePath, [...data, newTalker]);
+    res.status(201).json(writeNewTalker);
 });
 
 module.exports = talkerRouter;
