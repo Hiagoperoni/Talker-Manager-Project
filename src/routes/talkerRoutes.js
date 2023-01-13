@@ -101,7 +101,8 @@ talkerRouter.post('/talker', async (req, res) => {
         return res.status(400).json({ message: resultVerify[1] });
     }
     const newTalker = { id, name, age, talk: { watchedAt, rate } };
-    await writeFile([...data, newTalker], filePath);
+    const writeNewTalker = [...data, newTalker];
+    await writeFile(writeNewTalker, filePath);
     res.status(201).json(newTalker);
 });
 
