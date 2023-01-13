@@ -67,8 +67,7 @@ talkerRouter.put('/talker/:id', authMidd, nameAndAgeMidd,
     return res.status(200).json(edittedTalker);
 });
 
-talkerRouter.delete('/talker/:id', authMidd, nameAndAgeMidd, 
-    talkerMidd, rateMidd, watchedAtMidd, async (req, res) => {
+talkerRouter.delete('/talker/:id', authMidd, async (req, res) => {
     const { id } = req.params;
     const data = await readFile(filePath);
     const result = data.filter((talker) => talker.id !== Number(id));
