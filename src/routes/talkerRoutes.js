@@ -100,9 +100,9 @@ talkerRouter.post('/talker', async (req, res) => {
     if (resultVerify[0] !== 0) {
         return res.status(400).json({ message: resultVerify[1] });
     }
-    const newTalker = { name, age, id, talk: { watchedAt, rate } };
-    const writeNewTalker = await writeFile(filePath, [...data, newTalker]);
-    res.status(201).json(writeNewTalker);
+    const newTalker = { id, name, age, talk: { watchedAt, rate } };
+    await writeFile([...data, newTalker], filePath);
+    res.status(201).json(newTalker);
 });
 
 module.exports = talkerRouter;
