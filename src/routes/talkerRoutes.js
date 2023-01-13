@@ -49,13 +49,22 @@ talkerRouter.put('/talker/:id', authMidd, nameAndAgeMidd,
     talkerMidd, rateMidd, watchedAtMidd, async (req, res) => {
     const { name, age, talk } = req.body;
     const { watchedAt, rate } = talk;
+    const nota = Number(rate);
     const { id } = req.params;
+    const idNum = Number(id);
     const data = await readFile(filePath);
     const result = data.filter((talker) => talker.id !== Number(id));
-    const edittedTalker = { id, name, age, talk: { watchedAt, rate } };
-    const editTalker = [result, edittedTalker];
-    await writeFile(editTalker, filePath);
-    return res.status(201).json(edittedTalker);
+    const edittedTalker = {
+        id: Number(idNum), 
+        name, 
+        age, 
+        talk: { 
+            watchedAt, 
+            rate: Number(nota) },
+        };
+    result.push(edittedTalker);
+    await writeFile(result, filePath);
+    return res.status(200).json(edittedTalker);
 });
 
 talkerRouter.delete('/talker/:id', authMidd, nameAndAgeMidd, 
